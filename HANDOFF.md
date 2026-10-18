@@ -30,10 +30,14 @@ JokeHub 是一個 **Chrome / Edge 瀏覽器插件（Manifest V3）**。
 - [x] 「不說謊」關鍵字過濾，中文用子字串比對，英文用整字比對（避免 `believe` 被誤判為 `lie`）
 - [x] 淺色 / 深色模式
 - [x] 圖示 16 / 32 / 48 / 128 px
-- [x] 自動測試（Node 內建 test runner，11 項測試全數通過，保留原有 3 項測試）
+- [x] 自動測試（Node 內建 test runner，15 項測試全數通過，保留原有 3 項測試）
+- [x] 待辦清單：新增、勾選／取消完成、刪除、未完成統計，localStorage 自動儲存，無新增權限
+- [x] 待辦讀寫失敗提示；寫入失敗不修改原清單，讀取失敗停用新增以避免覆寫資料
 - [x] README：安裝方式與新增笑話說明
 
-**本次驗證狀態：** `npm test` 11/11 通過。Node VM 模擬 DOM／剪貼簿驗證分類、每輪去重、答案收合、複製成功／失敗、非同步切換及空分類恢復；另驗證過濾不可繞過、零相依與無新增權限。
+**本次驗證狀態：** `npm test` 15/15 通過。Node VM 模擬 DOM／剪貼簿驗證分類、每輪去重、答案收合、複製成功／失敗、非同步切換及空分類恢復；另驗證過濾不可繞過、零相依與無新增權限。
+待辦資料格式：`[{ text: "事項", done: false }]`；文字限 1～200 字，採 textContent 顯示。資料不會上傳、不跨裝置同步；移除插件或清除其資料會清除清單。待辦文字為使用者自行輸入，不會作為笑話來源；笑話取得與過濾維持原路徑。
+
 **歷史驗證：** 原版 popup 曾在無頭 Chromium 確認畫面；本次未重新執行瀏覽器畫面測試。
 **尚未做過：** 實際以「載入未封裝項目」裝進 Chrome 做手動測試。
 
@@ -49,6 +53,8 @@ jokes.js             笑話庫 JOKES、FORBIDDEN_KEYWORDS、isHonestJoke()、get
 icons/               插件圖示 PNG
 tests/jokes.test.js  測試：笑話全部通過過濾、過濾規則正確、無重複、數量及分類
 tests/popup.test.js  Node VM 測試：分類、洗牌、複製與錯誤情境、MV3 限制
+todo.js              待辦清單，localStorage key: jokehub.todos.v1
+tests/todo.test.js   待辦操作、持久化、輸入驗證、純文字顯示及讀寫失敗
 package.json         只有 test 腳本，沒有任何相依套件
 README.md            使用者說明
 HANDOFF.md           本文件
@@ -74,7 +80,7 @@ HANDOFF.md           本文件
 
 本次原建議第 1～3 項已完成：55 則笑話、三類分類切換、複製題目與答案。笑話仍保留在 jokes.js，維持同步離線載入。
 
-1. **手動驗收**：Chrome／Edge 載入未封裝項目，確認分類、鍵盤操作、淺深色畫面及實際剪貼簿成功／拒絕情境。
+1. **手動驗收**：Chrome／Edge 載入未封裝項目，確認分類、鍵盤操作、淺深色畫面及實際剪貼簿成功／拒絕情境；待辦新增、完成、刪除後關閉再開啟，確認保留。
 2. **CI**：新增 GitHub Actions，在每次 push / PR 時執行 npm test。
 3. **我的最愛**：使用 chrome.storage.local 收藏笑話（需新增 storage 權限，另案處理）。
 4. **多語系**：使用 _locales/ 支援英文介面。

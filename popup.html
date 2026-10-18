@@ -32,9 +32,24 @@
   <button id="copy" type="button" class="secondary">複製笑話</button>
   <p id="copy-status" role="status" aria-live="polite"></p>
 
+  <section class="todos" aria-labelledby="todo-title">
+    <h2 id="todo-title">待辦清單</h2>
+    <form id="todo-form">
+      <label for="todo-input">新增待辦事項</label>
+      <div class="todo-entry">
+        <input id="todo-input" type="text" maxlength="200" placeholder="輸入待辦事項" autocomplete="off">
+        <button id="todo-add" type="submit">新增</button>
+      </div>
+    </form>
+    <p id="todo-count"></p>
+    <ul id="todo-list"></ul>
+    <p id="todo-status" role="status" aria-live="polite"></p>
+  </section>
+
   <footer>✔ 所有笑話皆不含說謊內容</footer>
 
   <script src="jokes.js"></script>
   <script src="popup.js"></script>
+  <script src="todo.js"></script>
 </body>
 </html>
