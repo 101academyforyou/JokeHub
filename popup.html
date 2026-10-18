@@ -11,6 +11,14 @@
     <h1>JokeHub</h1>
   </header>
 
+  <label for="category">笑話分類</label>
+  <select id="category">
+    <option value="全部">全部</option>
+    <option value="腦筋急轉彎">腦筋急轉彎</option>
+    <option value="雙關語">雙關語</option>
+    <option value="冷笑話">冷笑話</option>
+  </select>
+
   <main>
     <p id="question" class="question"></p>
     <p id="answer" class="answer" hidden></p>
@@ -21,9 +29,27 @@
     <button id="next" type="button" class="secondary">下一則</button>
   </div>
 
+  <button id="copy" type="button" class="secondary">複製笑話</button>
+  <p id="copy-status" role="status" aria-live="polite"></p>
+
+  <section class="todos" aria-labelledby="todo-title">
+    <h2 id="todo-title">待辦清單</h2>
+    <form id="todo-form">
+      <label for="todo-input">新增待辦事項</label>
+      <div class="todo-entry">
+        <input id="todo-input" type="text" maxlength="200" placeholder="輸入待辦事項" autocomplete="off">
+        <button id="todo-add" type="submit">新增</button>
+      </div>
+    </form>
+    <p id="todo-count"></p>
+    <ul id="todo-list"></ul>
+    <p id="todo-status" role="status" aria-live="polite"></p>
+  </section>
+
   <footer>✔ 所有笑話皆不含說謊內容</footer>
 
   <script src="jokes.js"></script>
   <script src="popup.js"></script>
+  <script src="todo.js"></script>
 </body>
 </html>
