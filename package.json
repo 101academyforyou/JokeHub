@@ -1,0 +1,9 @@
+{
+  "name": "jokehub",
+  "version": "1.0.0",
+  "private": true,
+  "description": "JokeHub 瀏覽器插件：點擊後在小視窗看笑話，且不含說謊內容。",
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  }
+}

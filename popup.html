@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <title>JokeHub</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <span class="logo">😄</span>
+    <h1>JokeHub</h1>
+  </header>
+
+  <main>
+    <p id="question" class="question"></p>
+    <p id="answer" class="answer" hidden></p>
+  </main>
+
+  <div class="actions">
+    <button id="reveal" type="button">看答案</button>
+    <button id="next" type="button" class="secondary">下一則</button>
+  </div>
+
+  <footer>✔ 所有笑話皆不含說謊內容</footer>
+
+  <script src="jokes.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
