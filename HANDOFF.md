@@ -24,14 +24,17 @@ JokeHub 是一個 **Chrome / Edge 瀏覽器插件（Manifest V3）**。
 - [x] Manifest V3 插件設定，不需要任何權限、可離線使用
 - [x] Popup 小視窗：先顯示題目，按「看答案」揭曉答案，按「下一則」換一則
 - [x] 洗牌播放：一輪看完前不會重複
-- [x] 笑話庫：25 則繁體中文笑話（雙關語、腦筋急轉彎）
+- [x] 笑話庫：55 則繁體中文、全年齡笑話；逐則審閱，避開欺瞞題材
+- [x] 分類切換：全部／腦筋急轉彎／雙關語／冷笑話；切換時重新洗牌、收起答案
+- [x] 複製完整題目與答案：navigator.clipboard，成功／失敗提示，不新增權限
 - [x] 「不說謊」關鍵字過濾，中文用子字串比對，英文用整字比對（避免 `believe` 被誤判為 `lie`）
 - [x] 淺色 / 深色模式
 - [x] 圖示 16 / 32 / 48 / 128 px
-- [x] 自動測試（Node 內建 test runner，3 項測試全數通過）
+- [x] 自動測試（Node 內建 test runner，11 項測試全數通過，保留原有 3 項測試）
 - [x] README：安裝方式與新增笑話說明
 
-**驗證狀態：** `npm test` 通過；popup 已在無頭 Chromium 中確認畫面正常。
+**本次驗證狀態：** `npm test` 11/11 通過。Node VM 模擬 DOM／剪貼簿驗證分類、每輪去重、答案收合、複製成功／失敗、非同步切換及空分類恢復；另驗證過濾不可繞過、零相依與無新增權限。
+**歷史驗證：** 原版 popup 曾在無頭 Chromium 確認畫面；本次未重新執行瀏覽器畫面測試。
 **尚未做過：** 實際以「載入未封裝項目」裝進 Chrome 做手動測試。
 
 ## 3. 檔案結構
@@ -44,13 +47,14 @@ popup.js             顯示邏輯：取得 getHonestJokes()、洗牌、看答案
 jokes.js             笑話庫 JOKES、FORBIDDEN_KEYWORDS、isHonestJoke()、getHonestJokes()
                      瀏覽器中掛在 window.JokeHub；Node 中可 require()（給測試用）
 icons/               插件圖示 PNG
-tests/jokes.test.js  測試：笑話全部通過過濾、過濾規則正確、無重複
+tests/jokes.test.js  測試：笑話全部通過過濾、過濾規則正確、無重複、數量及分類
+tests/popup.test.js  Node VM 測試：分類、洗牌、複製與錯誤情境、MV3 限制
 package.json         只有 test 腳本，沒有任何相依套件
 README.md            使用者說明
 HANDOFF.md           本文件
 ```
 
-笑話資料格式：`{ q: "題目", a: "答案" }`。
+笑話資料格式：`{ q: "題目", a: "答案", category: "腦筋急轉彎" }`。
 
 ## 4. 開發與測試
 
@@ -64,18 +68,17 @@ HANDOFF.md           本文件
 ## 5. Git 分支
 
 - 目前所有程式碼在 `claude/bold-pascal-s3uagm` 分支（也是 GitHub 上目前的預設分支）。
-- 建議接手後從這個分支開新分支開發，完成後再開 Pull Request。
+- 本次功能分支：`codex/joke-categories-and-copy`，從上述分支建立，PR 目標也是上述分支。
 
 ## 6. 建議的下一步（依優先順序）
 
-1. **擴充笑話庫**：增加到 50 則以上，維持繁體中文、全年齡、不含說謊題材；
-   考慮把笑話移到 `jokes.json` 方便維護（記得 popup 仍需經過 `isHonestJoke()`）。
-2. **笑話分類**：例如「腦筋急轉彎 / 雙關語 / 冷笑話」，popup 加上分類切換。
-3. **複製與分享**：加入「複製笑話」按鈕（使用 `navigator.clipboard`，不需要額外權限）。
-4. **我的最愛**：使用 `chrome.storage.local` 收藏笑話（需在 manifest 加入 `"storage"` 權限）。
-5. **多語系**：使用 `_locales/` 支援英文介面。
-6. **上架準備**：補隱私權說明、商店截圖、版本號規則，打包成 zip 上架 Chrome Web Store。
-7. **CI**：新增 GitHub Actions，在每次 push / PR 時執行 `npm test`。
+本次原建議第 1～3 項已完成：55 則笑話、三類分類切換、複製題目與答案。笑話仍保留在 jokes.js，維持同步離線載入。
+
+1. **手動驗收**：Chrome／Edge 載入未封裝項目，確認分類、鍵盤操作、淺深色畫面及實際剪貼簿成功／拒絕情境。
+2. **CI**：新增 GitHub Actions，在每次 push / PR 時執行 npm test。
+3. **我的最愛**：使用 chrome.storage.local 收藏笑話（需新增 storage 權限，另案處理）。
+4. **多語系**：使用 _locales/ 支援英文介面。
+5. **上架準備**：隱私權說明、商店截圖、版本號規則及 zip 打包。
 
 ## 7. 注意事項
 

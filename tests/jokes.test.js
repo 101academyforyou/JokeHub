@@ -24,3 +24,18 @@ test("每則笑話都有題目與答案，且沒有重複", () => {
     seen.add(joke.q);
   }
 });
+
+test("至少 50 則，分類完整且各分類皆經過過濾", () => {
+  const { CATEGORIES } = require('../jokes.js');
+  assert.ok(JOKES.length >= 50);
+  assert.deepStrictEqual(CATEGORIES, ['腦筋急轉彎', '雙關語', '冷笑話']);
+  for (const joke of JOKES) assert.ok(CATEGORIES.includes(joke.category));
+  for (const category of CATEGORIES) {
+    const jokes = getHonestJokes(category);
+    assert.ok(jokes.length > 0);
+    assert.ok(jokes.every(j => j.category === category && isHonestJoke(j)));
+    assert.deepStrictEqual(jokes, JOKES.filter(j => isHonestJoke(j) && j.category === category));
+  }
+  assert.deepStrictEqual(getHonestJokes('全部'), getHonestJokes());
+  assert.deepStrictEqual(getHonestJokes('不存在'), []);
+});
